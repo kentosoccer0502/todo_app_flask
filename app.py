@@ -1,10 +1,13 @@
 from flask import Flask, request, jsonify
+from flask_migrate import Migrate
+
 from models import db, Todo
 
 # Initialize the Flask app (ChatGPTを用いて生成)
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+migrate = Migrate(app, db)
 
 # Initialize the database (ChatGPTを用いて生成)
 db.init_app(app)
@@ -20,16 +23,18 @@ def create_todo():
     data = request.get_json()
     try:
         todo_title = data.get('title')
-        todo_new = Todo(todo_title=todo_title)
+        todo_status = data.get('status', '未着手')
+        todo_new = Todo(todo_title=todo_title, todo_status=todo_status)
         db.session.add(todo_new)
         db.session.commit()
         result = {
             'id': todo_new.id,
             'title': todo_new.todo_title,
+            'status': todo_new.todo_status,
             'created_at': todo_new.created_at,
             'updated_at': todo_new.updated_at
         }
-        return jsonify(result), 204
+        return jsonify(f'Added successfully\n {result}'), 204
     except Exception as e:
         return jsonify({'error': str(e)}), 503
 
@@ -44,6 +49,7 @@ def get_todos():
             todo_data = {
                 'id': todo.id,
                 'title': todo.todo_title,
+                'status': todo.todo_status,
                 'created_at': todo.created_at,
                 'updated_at': todo.updated_at
             }
@@ -61,11 +67,15 @@ def update_todo(id):
         todo_update = Todo.query.get(id)
         if not todo_update:
             return (f'Error: id{id} does not exists'), 404
-        todo_update.todo_title = data.get('title')
+        if 'title' in data:
+            todo_update.todo_title = data.get('title')
+        if 'status' in data:
+            todo_update.todo_status = data.get('status')
         db.session.commit()
         result = {
             'id': todo_update.id,
             'title': todo_update.todo_title,
+            'status': todo_update.todo_status,
             'created_at': todo_update.created_at,
             'updated_at': todo_update.updated_at
         }
