@@ -24,6 +24,7 @@ def create_todo():
     try:
         todo_title = data.get('title')
         todo_status = data.get('status', '未着手')
+        todo_priority = data.get('priority', 1)
         todo_new = Todo(todo_title=todo_title, todo_status=todo_status)
         db.session.add(todo_new)
         db.session.commit()
@@ -31,6 +32,7 @@ def create_todo():
             'id': todo_new.id,
             'title': todo_new.todo_title,
             'status': todo_new.todo_status,
+            'priority': todo_new.todo_priority,
             'created_at': todo_new.created_at,
             'updated_at': todo_new.updated_at
         }
@@ -50,6 +52,7 @@ def get_todos():
                 'id': todo.id,
                 'title': todo.todo_title,
                 'status': todo.todo_status,
+                'priority': todo.todo_priority,
                 'created_at': todo.created_at,
                 'updated_at': todo.updated_at
             }
@@ -71,11 +74,14 @@ def update_todo(id):
             todo_update.todo_title = data.get('title')
         if 'status' in data:
             todo_update.todo_status = data.get('status')
+        if 'priority' in data:
+            todo_update.todo_priority = data.get('priority')
         db.session.commit()
         result = {
             'id': todo_update.id,
             'title': todo_update.todo_title,
             'status': todo_update.todo_status,
+            'priority': todo_update.todo_priority,
             'created_at': todo_update.created_at,
             'updated_at': todo_update.updated_at
         }
