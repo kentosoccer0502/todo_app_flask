@@ -1,20 +1,20 @@
 from flask import Flask, request, jsonify
 from models import db, Todo
 
-
+# Initialize the Flask app (ChatGPTを用いて生成)
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize the database
+# Initialize the database (ChatGPTを用いて生成)
 db.init_app(app)
 
-# Create a new todo table
+# Create a new todo table (ChatGPTを用いて生成)
 with app.app_context():
     db.create_all()
 
 
-# Add a new todo
+# Add a new todo　(ChatGPTを用いて叩き台を生成)
 @app.route('/todos', methods=['POST'])
 def create_todo():
     data = request.get_json()
@@ -88,6 +88,6 @@ def delete_todo(id):
         return jsonify({'error': str(e)}), 503
 
         
-
+# Run the app (ChatGPTを用いて生成)
 if __name__ == '__main__':
     app.run(debug=True)
