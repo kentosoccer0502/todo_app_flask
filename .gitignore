@@ -10,3 +10,6 @@ __pycache__/
 *.log
 *.sqlite3
 *.swp
+
+# DB
+instance/
