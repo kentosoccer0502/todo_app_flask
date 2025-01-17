@@ -36,16 +36,7 @@ def create_todo(user):
         )
         db.session.add(todo_new)
         db.session.commit()
-        result = {
-            'id': todo_new.id,
-            'user_id': todo_new.user_id,
-            'title': todo_new.todo_title,
-            'status': todo_new.todo_status,
-            'priority': todo_new.todo_priority,
-            'created_at': todo_new.created_at,
-            'updated_at': todo_new.updated_at
-        }
-        return jsonify(f'Added successfully\n {result}'), 204
+        return '', 204
     except Exception as e:
         return jsonify({'error': str(e)}), 503
 
@@ -89,16 +80,7 @@ def update_todo(id, user):
         if 'priority' in data:
             todo_update.todo_priority = data.get('priority')
         db.session.commit()
-        result = {
-            'id': todo_update.id,
-            'user_id': todo_update.user_id,
-            'title': todo_update.todo_title,
-            'status': todo_update.todo_status,
-            'priority': todo_update.todo_priority,
-            'created_at': todo_update.created_at,
-            'updated_at': todo_update.updated_at
-        }
-        return jsonify(result), 204
+        return '', 204
     except Exception as e:
         return jsonify({'error': str(e)}), 503
     
@@ -112,7 +94,7 @@ def delete_todo(id, user):
             return (f'Error: id{id} does not exists'), 404
         db.session.delete(todo_delete)
         db.session.commit()
-        return jsonify(f'Deleted successfully'), 204
+        return '', 204
     except Exception as e:
         return jsonify({'error': str(e)}), 503
 
@@ -147,13 +129,7 @@ def create_user():
         user_new.set_password(password)
         db.session.add(user_new)
         db.session.commit()
-        result = {
-            'id': user_new.id,
-            'username': user_new.username,
-            'created_at': user_new.created_at,
-            'updated_at': user_new.updated_at
-        }
-        return jsonify(f'Added successfully\n {result}'), 204
+        return jsonify(f'Added successfully! {user_new.username}'), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 503
 
