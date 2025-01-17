@@ -18,7 +18,7 @@ with app.app_context():
     db.create_all()
 
 
-## Todo REST API ##
+## Todo REST API ###############################################################################################################
 # Add a new todo (ChatGPTを用いて叩き台を生成)
 @app.route('/todos', methods=['POST'])
 @basic_authenticate
@@ -41,7 +41,7 @@ def create_todo(user):
         return jsonify({'error': str(e)}), 503
 
 
-# Get all todos
+# Get all todos(上記のPOSTメソッドを参考にして自力で作成)
 @app.route('/todos', methods=['GET'])
 @basic_authenticate
 def get_todos(user):
@@ -64,13 +64,13 @@ def get_todos(user):
         return jsonify({'error': str(e)}), 503
 
 
-# Update todo
+# Update todo(上記のPOSTメソッドを参考にして自力で作成)
 @app.route('/todos/<int:id>', methods=['PUT'])
 @basic_authenticate
-def update_todo(id, user):
+def update_todo(user, id):
     data = request.get_json()
     try:
-        todo_update = Todo.query.filter_by(user_id=user.id).get(id)
+        todo_update = Todo.query.filter(Todo.id == id, Todo.user_id == user.id).first()
         if not todo_update:
             return (f'Error: id:{id} does not exists'), 404
         if 'title' in data:
@@ -85,11 +85,12 @@ def update_todo(id, user):
         return jsonify({'error': str(e)}), 503
     
 
-# Delete todo
+# Delete todo(上記のPOSTメソッドを参考にして自力で作成)
 @app.route('/todos/<int:id>', methods=['DELETE'])
-def delete_todo(id, user):
+@basic_authenticate
+def delete_todo(user ,id):
     try:
-        todo_delete = Todo.query.filter_by(user_id=user.id).get(id)
+        todo_delete = Todo.query.filter(Todo.id == id, Todo.user_id == user.id).first()
         if not todo_delete:
             return (f'Error: id{id} does not exists'), 404
         db.session.delete(todo_delete)
@@ -97,10 +98,10 @@ def delete_todo(id, user):
         return '', 204
     except Exception as e:
         return jsonify({'error': str(e)}), 503
+################################################################################################################################
 
-
-## User REST API ##
-# Get all users
+## User REST API ###############################################################################################################
+# Get all users(上記のPOSTメソッドを参考にして自力で作成)
 @app.route('/users', methods=['GET'])
 def get_users():
     try:
@@ -118,7 +119,8 @@ def get_users():
     except Exception as e:
         return jsonify({'error': str(e)}), 503
     
-# Add a new user
+
+# Add a new user(上記のPOSTメソッドを参考にして自力で作成)
 @app.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json()
@@ -132,8 +134,8 @@ def create_user():
         return jsonify(f'Added successfully! {user_new.username}'), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 503
-
+#################################################################################################################################
         
 # Run the app (ChatGPTを用いて生成)
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)

@@ -4,7 +4,10 @@ from werkzeug.security import check_password_hash
 
 from models import User
 
-
+# Basic authentication decorator(ChatGPTを用いて生成)
+# 入力プロンプト
+# user_idをTodoテーブルに追加したことによって、/todoのREST APIにて、コードはどのように改修すべきでしょうか？
+# おそらくパスワード入力が必要になる認識です。
 def basic_authenticate(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
