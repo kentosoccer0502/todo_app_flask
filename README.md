@@ -62,7 +62,7 @@ git clone https://github.com/catechlounge/kento_natsuyama.git
 docker build -t flask-todo-app .
 
 # コンテナ起動（コンテナ名は任意）
-docker run -d -p 5001:5000 --name flask-todo-container flask-todo-app
+docker run -d -p 5001:5001 --name flask-todo-container flask-todo-app
 
 ```
 
@@ -83,7 +83,7 @@ curl -i -X GET http://127.0.0.1:5001/users
 
 5\. タイトルを指定してTODOを作成するAPI(userおよびpasswordは例)
 ```bash
-curl -i -X POST -u testuser1:securepassword123 http://127.0.0.1:5001/todos \
+curl -i -X POST -u testuser1:securepassword123 http://127.0.0.1:5001/todos/add \
 -H "Content-Type: application/json" \
 -d '{
   "title": "Learn Flask",
@@ -99,7 +99,7 @@ curl -i -X GET -u testuser1:securepassword123 http://127.0.0.1:5001/todos
 
 7\. 指定したTODOを変更するAPI(userおよびpasswordは例)
 ```bash
-curl -i -X PUT -u testuser1:securepassword123 http://127.0.0.1:5001/todos/1 \
+curl -i -X PUT -u testuser1:securepassword123 http://127.0.0.1:5001/todos/update/1 \
 -H "Content-Type: application/json" \
 -d '{
   "title": "Learn Flask Basics",
@@ -111,7 +111,7 @@ curl -i -X PUT -u testuser1:securepassword123 http://127.0.0.1:5001/todos/1 \
 
 8\. 指定したTODOを削除するAPI(userおよびpasswordは例)
 ```bash
-curl -i -X DELETE -u testuser1:securepassword123 http://127.0.0.1:5001/todos/1
+curl -i -X DELETE -u testuser1:securepassword123 http://127.0.0.1:5001/todos/delete/1
 ```
 
 
