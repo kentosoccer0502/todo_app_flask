@@ -62,13 +62,13 @@ git clone https://github.com/catechlounge/kento_natsuyama.git
 docker build -t flask-todo-app .
 
 # コンテナ起動（コンテナ名は任意）
-docker run -d -p 5000:5000 --name flask-todo-container flask-todo-app
+docker run -d -p 5001:5000 --name flask-todo-container flask-todo-app
 
 ```
 
 3\. 別セッションでユーザの新規作成(userおよびpasswordは例)
 ```bash
-curl -i -X POST http://127.0.0.1:5000/users \
+curl -i -X POST http://127.0.0.1:5001/users \
 -H "Content-Type: application/json" \
 -d '{
   "username": "testuser",
@@ -78,12 +78,12 @@ curl -i -X POST http://127.0.0.1:5000/users \
 
 4\. ユーザ一覧を取得
 ```bash
-curl -i -X GET http://127.0.0.1:5000/users
+curl -i -X GET http://127.0.0.1:5001/users
 ```
 
 5\. タイトルを指定してTODOを作成するAPI(userおよびpasswordは例)
 ```bash
-curl -i -X POST -u testuser1:securepassword123 http://127.0.0.1:5000/todos \
+curl -i -X POST -u testuser1:securepassword123 http://127.0.0.1:5001/todos \
 -H "Content-Type: application/json" \
 -d '{
   "title": "Learn Flask",
@@ -94,12 +94,12 @@ curl -i -X POST -u testuser1:securepassword123 http://127.0.0.1:5000/todos \
 
 6\. 作成したTODOの一覧を取得するAPI(userおよびpasswordは例)
 ```bash
-curl -i -X GET -u testuser1:securepassword123 http://127.0.0.1:5000/todos
+curl -i -X GET -u testuser1:securepassword123 http://127.0.0.1:5001/todos
 ```
 
 7\. 指定したTODOを変更するAPI(userおよびpasswordは例)
 ```bash
-curl -i -X PUT -u testuser1:securepassword123 http://127.0.0.1:5000/todos/1 \
+curl -i -X PUT -u testuser1:securepassword123 http://127.0.0.1:5001/todos/1 \
 -H "Content-Type: application/json" \
 -d '{
   "title": "Learn Flask Basics",
@@ -111,7 +111,7 @@ curl -i -X PUT -u testuser1:securepassword123 http://127.0.0.1:5000/todos/1 \
 
 8\. 指定したTODOを削除するAPI(userおよびpasswordは例)
 ```bash
-curl -i -X DELETE -u testuser1:securepassword123 http://127.0.0.1:5000/todos/1
+curl -i -X DELETE -u testuser1:securepassword123 http://127.0.0.1:5001/todos/1
 ```
 
 
@@ -180,6 +180,11 @@ def create_todo():
 if __name__ == '__main__':
     app.run(debug=True)
 ```
+2\. 以下のレポジトリを参考にした
+
+https://github.com/kentosoccer0502/sns_application.git
+
+※ 自分で開発したFlaskアプリケーション
 
 
 
