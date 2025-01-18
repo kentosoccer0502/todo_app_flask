@@ -56,26 +56,17 @@ TODOリストを管理するREST APIを課題の必須要件および任意の�
 git clone https://github.com/catechlounge/kento_natsuyama.git
 ```
 
-2\. 環境構築
+2\. コンテナビルド／起動
 ```bash
-# 仮想環境の作成
-python -m venv venv
+#　ビルド（イメージ名は例）
+docker build -t flask-todo-app .
 
-# 仮想環境の有効化
-source venv/bin/activate  # macOS/Linux
-venv\Scripts\activate     # Windows
-
-# 必要なパッケージのインストール
-pip install -r requirements.txt
+# コンテナ起動（コンテナ名は任意）
+docker run -d -p 5000:5000 --name flask-todo-container flask-todo-app
 
 ```
 
-3\. アプリケーションの起動
-```bash
-python app.py
-```
-
-4\. 別セッションでユーザの新規作成(userおよびpasswordは例)
+3\. 別セッションでユーザの新規作成(userおよびpasswordは例)
 ```bash
 curl -i -X POST http://127.0.0.1:5000/users \
 -H "Content-Type: application/json" \
@@ -85,12 +76,12 @@ curl -i -X POST http://127.0.0.1:5000/users \
 }'
 ```
 
-5\. ユーザ一覧を取得
+4\. ユーザ一覧を取得
 ```bash
 curl -i -X GET http://127.0.0.1:5000/users
 ```
 
-6\. タイトルを指定してTODOを作成するAPI(userおよびpasswordは例)
+5\. タイトルを指定してTODOを作成するAPI(userおよびpasswordは例)
 ```bash
 curl -i -X POST -u testuser1:securepassword123 http://127.0.0.1:5000/todos \
 -H "Content-Type: application/json" \
@@ -101,12 +92,12 @@ curl -i -X POST -u testuser1:securepassword123 http://127.0.0.1:5000/todos \
 }'
 ```
 
-7\. 作成したTODOの一覧を取得するAPI(userおよびpasswordは例)
+6\. 作成したTODOの一覧を取得するAPI(userおよびpasswordは例)
 ```bash
 curl -i -X GET -u testuser1:securepassword123 http://127.0.0.1:5000/todos
 ```
 
-8\. 指定したTODOを変更するAPI(userおよびpasswordは例)
+7\. 指定したTODOを変更するAPI(userおよびpasswordは例)
 ```bash
 curl -i -X PUT -u testuser1:securepassword123 http://127.0.0.1:5000/todos/1 \
 -H "Content-Type: application/json" \
@@ -118,7 +109,7 @@ curl -i -X PUT -u testuser1:securepassword123 http://127.0.0.1:5000/todos/1 \
 
 ```
 
-9\. 指定したTODOを削除するAPI(userおよびpasswordは例)
+8\. 指定したTODOを削除するAPI(userおよびpasswordは例)
 ```bash
 curl -i -X DELETE -u testuser1:securepassword123 http://127.0.0.1:5000/todos/1
 ```
