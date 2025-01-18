@@ -2,7 +2,7 @@ from flask import request, jsonify
 from functools import wraps
 from werkzeug.security import check_password_hash
 
-from models import User
+from app.models.user import User
 
 # Basic authentication decorator(ChatGPTを用いて生成)
 # 入力プロンプト:
