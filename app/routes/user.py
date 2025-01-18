@@ -26,7 +26,7 @@ def get_users():
     
 
 # Add a new user(/todos/addのPOSTメソッドを参考にして自力で作成)
-@user_bp.route('/users', methods=['POST'])
+@user_bp.route('/users/add', methods=['POST'])
 def create_user():
     data = request.get_json()
     try:

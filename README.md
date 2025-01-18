@@ -71,7 +71,7 @@ docker run -d -p 5001:5001 --name flask-todo-container flask-todo-app
 
 3\. 別セッションでユーザの新規作成(userおよびpasswordは例)
 ```bash
-curl -i -X POST http://127.0.0.1:5001/users \
+curl -i -X POST http://127.0.0.1:5001/users/add \
 -H "Content-Type: application/json" \
 -d '{
   "username": "testuser",
