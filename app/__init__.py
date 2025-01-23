@@ -11,6 +11,7 @@ db = SQLAlchemy()
 def create_app():
     # Create the Flask app
     app = Flask(__name__)
+    app.secret_key = 'secret_key'
     # Set the database URI
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -29,5 +30,7 @@ def create_app():
     app.register_blueprint(todo_bp)
     from app.routes.user import user_bp
     app.register_blueprint(user_bp)
+    from app.routes.login import login_bp
+    app.register_blueprint(login_bp)
     
     return app
