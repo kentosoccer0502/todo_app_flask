@@ -41,9 +41,9 @@ def get_todos():
             todo_data = {
                 'id': todo.id,
                 'user_id': todo.user_id,
-                'title': todo.todo_title,
-                'status': todo.todo_status,
-                'priority': todo.todo_priority,
+                'todo_title': todo.todo_title,
+                'todo_status': todo.todo_status,
+                'todo_priority': todo.todo_priority,
                 'created_at': todo.created_at,
                 'updated_at': todo.updated_at
             }

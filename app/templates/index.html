@@ -7,23 +7,38 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h2>{{ current_user.username }}'s Top Page</h2>
-        <div id="todo-list">
-            <h3>Todo List</h3>
-            <ul>
-                {% for todo in todos %}
-                    <li>
-                        <span>{{ todo.id }}</span><br>
-                        <span>{{ todo.title }}</span><br>
-                        <span>{{ todo.status }}</span><br>
-                        <span>{{ todo.priority }}</span><br>
-                        <form action="{{ url_for('todo.delete_todo', todo_id=todo.id) }}" method="post">
-                            <button type="submit">Delete</button>
-                        </form>
-                    </li>
-                {% endfor %}
-            </ul>
+    <header>
+        <h1>{{ current_user.username }}'s Top Page</h1>
+    </header>
+    <main>
+        <section id="todo-list">
+            <h2>Todo List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th class="title">Title</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for todo in todos %}
+                        <tr>
+                            <td>{{ todo.id }}</td>
+                            <td class="title">{{ todo.todo_title }}</td>
+                            <td>{{ todo.todo_status }}</td>
+                            <td>{{ todo.todo_priority }}</td>
+                            <td>
+                                <form action="{{ url_for('todo.delete_todo', todo_id=todo.id) }}" method="post">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
             <form action="{{ url_for('todo.create_todo') }}" method="post">
                 <div class="form-group">
                     <label for="content">Content</label>
@@ -31,7 +46,7 @@
                 </div>
                 <button type="submit">Add</button>
             </form>
-        </div>
-    </div>
+        </section>
+    </main>
 </body>
 </html>
