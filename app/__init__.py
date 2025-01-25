@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import LoginManager
 
 
 # Initialize the database (ChatGPTを用いて生成)
@@ -24,6 +25,14 @@ def create_app():
 
     # Initialize the migration
     Migrate(app, db)
+
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+    login_manager.login_view = 'login.login'
+    
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
     # Register the blueprints
     from app.routes.todo import todo_bp

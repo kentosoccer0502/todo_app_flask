@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash
 
 from app.models.user import User
@@ -16,7 +17,7 @@ def login():
         # ユーザーの存在確認
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password_hash, password):
-            session['username'] = username  # セッションにユーザーIDを保存
+            login_user(user, remember=True)
             flash('Login Successed!', 'success')
             return redirect(url_for('login.dashboard'))  # ダッシュボードにリダイレクト
         else:
@@ -25,14 +26,11 @@ def login():
     return render_template('login.html')
 
 @login_bp.route('/dashboard')
+@login_required
 def dashboard():
-    if 'user_id' not in session:
-        flash('Login required', 'warning')
-        return redirect(url_for('login'))
     return f"Welcome User {session['username']} "
 
 @login_bp.route('/logout')
 def logout():
-    session.pop('user_id', None)
-    flash('Logout Successed!', 'success')
-    return redirect(url_for('login'))
+    logout_user()
+    return redirect(url_for('login.login'))
