@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash
 
 from app.models.user import User
-
+from app.routes import todo
 
 login_bp = Blueprint('login', __name__) 
 
@@ -19,16 +19,12 @@ def login():
         if user and check_password_hash(user.password_hash, password):
             login_user(user, remember=True)
             flash('Login Successed!', 'success')
-            return redirect(url_for('login.dashboard'))  # ダッシュボードにリダイレクト
+            return redirect(url_for('todo.get_todos'))  # Top Pageにリダイレクト
         else:
             flash('Username or password is wrong', 'danger')
             return redirect(url_for('login.login'))
     return render_template('login.html')
 
-@login_bp.route('/dashboard')
-@login_required
-def dashboard():
-    return f"Welcome User {session['username']} "
 
 @login_bp.route('/logout')
 def logout():

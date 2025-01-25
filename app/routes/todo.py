@@ -1,4 +1,5 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
+from flask_login import login_required, current_user
 
 from app import db
 from app.models.todo import Todo
@@ -31,10 +32,10 @@ def create_todo(user):
 
 # Get all todos(/todos/addのPOSTメソッドを参考にして自力で作成)
 @todo_bp.route('/todos', methods=['GET'])
-@basic_authenticate
-def get_todos(user):
+@login_required
+def get_todos():
     try:
-        todos = Todo.query.filter_by(user_id=user.id).all()
+        todos = Todo.query.filter_by(user_id=current_user.id).all()
         todos_list = []
         for todo in todos:
             todo_data = {
@@ -47,7 +48,7 @@ def get_todos(user):
                 'updated_at': todo.updated_at
             }
             todos_list.append(todo_data)
-        return jsonify(todos_list), 200
+        return render_template('index.html', user=current_user, todos_list=todos_list), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 503
 
