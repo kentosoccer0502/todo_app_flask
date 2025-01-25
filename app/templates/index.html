@@ -3,12 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Page for Todos Application</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Todos Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
-    <div class="top-container">
-        <h2>{{ user.username }}'s Top Page</h2>
+    <div class="container">
+        <h2>{{ current_user.username }}'s Top Page</h2>
+        <div id="todo-list">
+            <h3>Todo List</h3>
+            <ul>
+                {% for todo in todos %}
+                    <li>
+                        <span>{{ todo.id }}</span><br>
+                        <span>{{ todo.title }}</span><br>
+                        <span>{{ todo.status }}</span><br>
+                        <span>{{ todo.priority }}</span><br>
+                        <form action="{{ url_for('todo.delete_todo', todo_id=todo.id) }}" method="post">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+            <form action="{{ url_for('todo.create_todo') }}" method="post">
+                <div class="form-group">
+                    <label for="content">Content</label>
+                    <input type="text" id="content" name="content" required>
+                </div>
+                <button type="submit">Add</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
