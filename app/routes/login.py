@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 from app.models.user import User
 from app.routes import todo
 
-login_bp = Blueprint('login', __name__) 
+login_bp = Blueprint('login', __name__)
 
 
 @login_bp.route('/login', methods=['GET', 'POST'])

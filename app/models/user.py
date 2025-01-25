@@ -2,7 +2,7 @@ from datetime import datetime, timezone, timedelta
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import db
+from app import db 
 
 # 日本時間のタイムゾーンを設定
 JST = timezone(timedelta(hours=9))
