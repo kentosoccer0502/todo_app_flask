@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 from flask_login import login_required, current_user
+from datetime import datetime
 
 from app import db
 from app.models.todo import Todo
@@ -14,7 +15,7 @@ todo_bp = Blueprint('todo', __name__)
 @todo_bp.route('/todos/add', methods=['POST'])
 @login_required
 def create_todo():
-    data = request.get_json()
+    data = request.form
     try:
         todo_title = data.get('title')
         todo_status = data.get('status', '未着手')
@@ -23,7 +24,7 @@ def create_todo():
             todo_title=todo_title,
             todo_status=todo_status,
             todo_priority=todo_priority,
-            user_id=current_user.id
+            user_id=current_user.id,
         )
         db.session.add(todo_new)
         db.session.commit()

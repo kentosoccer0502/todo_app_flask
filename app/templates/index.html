@@ -1,52 +1,69 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todos Application</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='index.css') }}"
+    />
+  </head>
+  <body>
     <header>
-        <h1>{{ current_user.username }}'s Top Page</h1>
+      <h1>{{ current_user.username }}'s Top Page</h1>
     </header>
     <main>
-        <section id="todo-list">
-            <h2>Todo List</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th class="title">Title</th>
-                        <th>Status</th>
-                        <th>Priority</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for todo in todos %}
-                        <tr>
-                            <td>{{ todo.id }}</td>
-                            <td class="title">{{ todo.todo_title }}</td>
-                            <td>{{ todo.todo_status }}</td>
-                            <td>{{ todo.todo_priority }}</td>
-                            <td>
-                                <form action="{{ url_for('todo.delete_todo', todo_id=todo.id) }}" method="post">
-                                    <button type="submit">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <form action="{{ url_for('todo.create_todo') }}" method="post">
-                <div class="form-group">
-                    <label for="content">Content</label>
-                    <input type="text" id="content" name="content" required>
-                </div>
-                <button type="submit">Add</button>
-            </form>
-        </section>
+      <section id="todo-list">
+        <h2>Todo List</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th class="title">Title</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Updated at</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for todo in todos %}
+            <tr>
+              <td>{{ todo.id }}</td>
+              <td class="title">{{ todo.todo_title }}</td>
+              <td>{{ todo.todo_status }}</td>
+              <td>{{ todo.todo_priority }}</td>
+              <td>{{ todo.updated_at }}</td>
+              <td>
+                <form
+                  action="{{ url_for('todo.delete_todo', todo_id=todo.id) }}"
+                  method="post"
+                >
+                  <button type="submit">Delete</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <form action="{{ url_for('todo.create_todo') }}" method="post">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label for="status">Status</label>
+            <input type="text" id="status" name="status" required />
+          </div>
+          <div class="form-group">
+            <label for="priority">Priority</label>
+            <input type="text" id="priority" name="priority" required />
+          </div>
+          </div>
+          <button type="submit">Add</button>
+        </form>
+      </section>
     </main>
-</body>
+  </body>
 </html>
