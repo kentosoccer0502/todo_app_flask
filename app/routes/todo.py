@@ -25,7 +25,7 @@ def create_todo():
         )
         db.session.add(todo_new)
         db.session.commit()
-        return redirect(url_for('todo.get_todos'))
+        return redirect(url_for('todo.get_todos')), 302
     except Exception as e:
         return jsonify({'error': str(e)}), 503
 
@@ -48,7 +48,7 @@ def get_todos():
             }
             todos_list.append(todo_data)
         return render_template(
-            'index.html', user=current_user, todos=todos_list), 200
+            'main.html', user=current_user, todos=todos_list), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 503
 
@@ -69,13 +69,13 @@ def update_todo(user, id):
         if 'priority' in data:
             todo_update.todo_priority = data.get('priority')
         db.session.commit()
-        return redirect(url_for('todo.index')), 200
+        return redirect(url_for('todo.main')), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 503
 
 
-@todo_bp.route('/todos/delete/<int:todo_id>', methods=['DELETE'])
-@basic_authenticate
+@todo_bp.route('/todos/delete/<int:todo_id>', methods=['POST'])
+@login_required
 def delete_todo(todo_id):
     try:
         todo_delete = Todo.query.filter(
@@ -85,6 +85,6 @@ def delete_todo(todo_id):
             return (f'Error: id{todo_id} does not exists'), 404
         db.session.delete(todo_delete)
         db.session.commit()
-        return '', 204
+        return redirect(url_for('todo.get_todos')), 302
     except Exception as e:
         return jsonify({'error': str(e)}), 503
