@@ -19,7 +19,7 @@
         <table>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>No.</th>
               <th class="title">Title</th>
               <th>Status</th>
               <th>Priority</th>
@@ -30,11 +30,11 @@
           <tbody>
             {% for todo in todos %}
             <tr>
-              <td>{{ todo.id }}</td>
+              <td>{{ loop.index }}</td>
               <td class="title">{{ todo.todo_title }}</td>
               <td>{{ todo.todo_status }}</td>
               <td>{{ todo.todo_priority }}</td>
-              <td>{{ todo.updated_at }}</td>
+              <td>{{ todo.updated_at.strftime('%Y/%m/%d %H:%M') }}</td>
               <td>
                 <form
                   action="{{ url_for('todo.delete_todo', todo_id=todo.id) }}"
@@ -54,11 +54,20 @@
           </div>
           <div class="form-group">
             <label for="status">Status</label>
-            <input type="text" id="status" name="status" required />
+            <select id="status" name="status" required >
+                <option value="起票">起票</option>
+                <option value="対応中">対応中</option>
+                <option value="完了">完了</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="priority">Priority</label>
-            <input type="text" id="priority" name="priority" required />
+            <select id="priority" name="priority" required >
+                <option value="緊急">緊急</option>
+                <option value="高">高</option>
+                <option value="中">中</option>
+                <option value="低">低</option>
+            </select>
           </div>
           </div>
           <button type="submit">Add</button>

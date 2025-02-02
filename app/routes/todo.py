@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for
 from flask_login import login_required, current_user
 from datetime import datetime
 
@@ -7,9 +7,6 @@ from app.models.todo import Todo
 from app.utils.auth import basic_authenticate
 
 todo_bp = Blueprint('todo', __name__)
-
-## Todo REST API #########################################################
-# Add a new todo (ChatGPTを用いて叩き台を生成)
 
 
 @todo_bp.route('/todos/add', methods=['POST'])
@@ -28,12 +25,11 @@ def create_todo():
         )
         db.session.add(todo_new)
         db.session.commit()
-        return '', 204
+        return redirect(url_for('todo.get_todos'))
     except Exception as e:
         return jsonify({'error': str(e)}), 503
 
 
-# Get all todos(/todos/addのPOSTメソッドを参考にして自力で作成)
 @todo_bp.route('/todos', methods=['GET'])
 @login_required
 def get_todos():
@@ -57,7 +53,6 @@ def get_todos():
         return jsonify({'error': str(e)}), 503
 
 
-# Update todo(/todos/addのPOSTメソッドを参考にして自力で作成)
 @todo_bp.route('/todos/update/<int:id>', methods=['PUT'])
 @basic_authenticate
 def update_todo(user, id):
@@ -74,12 +69,11 @@ def update_todo(user, id):
         if 'priority' in data:
             todo_update.todo_priority = data.get('priority')
         db.session.commit()
-        return '', 204
+        return redirect(url_for('todo.index')), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 503
 
 
-# Delete todo(/todos/addのPOSTメソッドを参考にして自力で作成)
 @todo_bp.route('/todos/delete/<int:todo_id>', methods=['DELETE'])
 @basic_authenticate
 def delete_todo(todo_id):
