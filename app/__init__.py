@@ -4,11 +4,11 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 
 
-# Initialize the database (ChatGPTを用いて生成)
+# Initialize the database
 db = SQLAlchemy()
 
 
-# Initialize the Flask app (ChatGPTを用いて生成)
+# Initialize the Flask app
 def create_app():
     # Create the Flask app
     app = Flask(__name__)
@@ -18,7 +18,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # Initialize the database
     db.init_app(app)
-    
+
     # Import the models
     from app.models.todo import Todo
     from app.models.user import User
@@ -29,7 +29,7 @@ def create_app():
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'login.login'
-    
+
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
@@ -41,5 +41,5 @@ def create_app():
     app.register_blueprint(user_bp)
     from app.routes.login import login_bp
     app.register_blueprint(login_bp)
-    
+
     return app

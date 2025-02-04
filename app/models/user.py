@@ -2,18 +2,14 @@ from datetime import datetime, timezone, timedelta
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import db 
+from app import db
 
 # 日本時間のタイムゾーンを設定
 JST = timezone(timedelta(hours=9))
 
-# Create a new user table (叩き台をChatGPTを用いて生成)
-# 入力プロンプト
-# user テーブルを以下の要件で作成したい。
-#・id, username, passwordのカラムを設ける
-#・idを主キーとする
-#・passwordはハッシュ化してDBに保存する
+
 class User(db.Model, UserMixin):
+    """Create a User table"""
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
