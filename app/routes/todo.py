@@ -14,13 +14,13 @@ todo_bp = Blueprint('todo', __name__)
 def create_todo():
     data = request.form
     try:
-        todo_title = data.get('title')
-        todo_status = data.get('status', '未着手')
-        todo_priority = data.get('priority', 1)
+        title = data.get('title')
+        status = data.get('status', '未着手')
+        priority = data.get('priority', 1)
         todo_new = Todo(
-            todo_title=todo_title,
-            todo_status=todo_status,
-            todo_priority=todo_priority,
+            title=title,
+            status=status,
+            priority=priority,
             user_id=current_user.id,
         )
         db.session.add(todo_new)
@@ -37,16 +37,16 @@ def get_todos():
         todos = Todo.query.filter_by(user_id=current_user.id).all()
         todos_list = []
         for todo in todos:
-            todo_data = {
+            data = {
                 'id': todo.id,
                 'user_id': todo.user_id,
-                'todo_title': todo.todo_title,
-                'todo_status': todo.todo_status,
-                'todo_priority': todo.todo_priority,
+                'title': todo.title,
+                'status': todo.status,
+                'priority': todo.priority,
                 'created_at': todo.created_at,
                 'updated_at': todo.updated_at
             }
-            todos_list.append(todo_data)
+            todos_list.append(data)
         return render_template(
             'main.html', user=current_user, todos=todos_list), 200
     except Exception as e:

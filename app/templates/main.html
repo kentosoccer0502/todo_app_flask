@@ -31,9 +31,9 @@
             {% for todo in todos %}
             <tr>
               <td>{{ loop.index }}</td>
-              <td class="title">{{ todo.todo_title }}</td>
-              <td>{{ todo.todo_status }}</td>
-              <td>{{ todo.todo_priority }}</td>
+              <td class="title">{{ todo.title }}</td>
+              <td>{{ todo.status }}</td>
+              <td>{{ todo.priority }}</td>
               <td>{{ todo.updated_at.strftime('%Y/%m/%d %H:%M') }}</td>
               <td>
                 <form method="post" action="{{ url_for('todo.delete_todo', todo_id=todo.id) }}">
