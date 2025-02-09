@@ -36,8 +36,37 @@
               <td>{{ todo.priority }}</td>
               <td>{{ todo.updated_at.strftime('%Y/%m/%d %H:%M') }}</td>
               <td>
-                <form method="post" action="{{ url_for('todo.delete_todo', todo_id=todo.id) }}">
+                <form method="post" action="{{ url_for('todo.delete_todo', id=todo.id) }}">
                   <button type="submit">Delete</button>
+                </form>
+                <button onclick="showUpdateForm('{{ todo.id }}')" type="button">Update</button>
+              </td>
+            </tr>
+            <tr id="update-form-{{ todo.id }}" style="display: none;">
+              <td colspan="6">
+                <form method="post" action="{{ url_for('todo.update_todo', id=todo.id) }}">
+                  <div class="form-group">
+                    <label for="title-{{ todo.id }}">Title</label>
+                    <input type="text" id="title-{{ todo.id }}" name="title" value="{{ todo.title }}" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="status-{{ todo.id }}">Status</label>
+                    <select id="status-{{ todo.id }}" name="status" required>
+                      <option value="起票" {% if todo.status == '起票' %}selected{% endif %}>起票</option>
+                      <option value="対応中" {% if todo.status == '対応中' %}selected{% endif %}>対応中</option>
+                      <option value="完了" {% if todo.status == '完了' %}selected{% endif %}>完了</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="priority-{{ todo.id }}">Priority</label>
+                    <select id="priority-{{ todo.id }}" name="priority" required>
+                      <option value="緊急" {% if todo.priority == '緊急' %}selected{% endif %}>緊急</option>
+                      <option value="高" {% if todo.priority == '高' %}selected{% endif %}>高</option>
+                      <option value="中" {% if todo.priority == '中' %}selected{% endif %}>中</option>
+                      <option value="低" {% if todo.priority == '低' %}selected{% endif %}>低</option>
+                    </select>
+                  </div>
+                  <button type="submit">Save</button>
                 </form>
               </td>
             </tr>
@@ -51,25 +80,34 @@
           </div>
           <div class="form-group">
             <label for="status">Status</label>
-            <select id="status" name="status" required >
-                <option value="起票">起票</option>
-                <option value="対応中">対応中</option>
-                <option value="完了">完了</option>
+            <select id="status" name="status" required>
+              <option value="起票">起票</option>
+              <option value="対応中">対応中</option>
+              <option value="完了">完了</option>
             </select>
           </div>
           <div class="form-group">
             <label for="priority">Priority</label>
-            <select id="priority" name="priority" required >
-                <option value="緊急">緊急</option>
-                <option value="高">高</option>
-                <option value="中">中</option>
-                <option value="低">低</option>
+            <select id="priority" name="priority" required>
+              <option value="緊急">緊急</option>
+              <option value="高">高</option>
+              <option value="中">中</option>
+              <option value="低">低</option>
             </select>
-          </div>
           </div>
           <button type="submit">Add</button>
         </form>
       </section>
     </main>
+    <script>
+      function showUpdateForm(id) {
+        var form = document.getElementById('update-form-' + id);
+        if (form.style.display === 'none') {
+          form.style.display = 'table-row';
+        } else {
+          form.style.display = 'none';
+        }
+      }
+    </script>
   </body>
 </html>
