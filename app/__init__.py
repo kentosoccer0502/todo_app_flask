@@ -8,16 +8,22 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 
 
-# Initialize the Flask app
 def create_app():
+    '''Create the Flask app'''
+    
     # Create the Flask app
     app = Flask(__name__)
     app.secret_key = 'secret_key'
+    
     # Set the database URI
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
     # Initialize the database
     db.init_app(app)
+
+    # (For Development) Disable templates caching
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
 
     # Import the models
     from app.models.todo import Todo
