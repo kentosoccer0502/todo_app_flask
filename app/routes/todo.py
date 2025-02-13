@@ -32,7 +32,7 @@ def get_todos():
         return jsonify({'error': str(e)}), 503
 
 
-@todo_bp.route('/todos/add', methods=['POST'])
+@todo_bp.route('/todos', methods=['POST'])
 @login_required
 def create_todo():
     data = request.form
@@ -53,8 +53,18 @@ def create_todo():
         return jsonify({'error': str(e)}), 503
 
 
-@todo_bp.route('/todos/update/<int:id>', methods=['POST'])
+@todo_bp.route('/todos/<int:id>', methods=['POST'])
 @login_required
+def modify_todo(id):
+    method = request.form.get('_method', '')
+    if method == 'PUT':
+        return update_todo(id)
+    elif method == 'DELETE':
+        return delete_todo(id)
+    else:
+        return jsonify({'error': 'Invalid method'}), 400
+
+
 def update_todo(id):
     data = request.form
     try:
@@ -75,8 +85,6 @@ def update_todo(id):
         return jsonify({'error': str(e)}), 503
 
 
-@todo_bp.route('/todos/delete/<int:id>', methods=['POST'])
-@login_required
 def delete_todo(id):
     try:
         todo_delete = Todo.query.filter(
